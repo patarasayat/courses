@@ -24,11 +24,21 @@ const initDBConnection = async () => {
 }
 
     //path = GET / users สำหรับ get ข้อมูล  user ทั้งหมด
-      app.get('/urers', async (req, res) => {
-        const results = await conn.query('SELECT * FROM users')
-         res.json(results[0]);  
+app.get('/users', async (req, res) => {
+    try {
+        // แก้ตรงนี้: ใส่ [rows] เพื่อรับเฉพาะข้อมูล Record จาก Database
+        const [rows] = await conn.query('SELECT * FROM users');
         
-    });
+        res.status(200).json({
+            data: rows // ใช้ rows แทน results
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "เกิดข้อผิดพลาดในการดึงข้อมูล",
+            error: error.message
+        });
+    }
+});
        
     const validateData = (userData) => {
     let errors = [];

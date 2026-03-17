@@ -26,20 +26,67 @@ const initDBConnection = async () => {
     //path = GET / users สำหรับ get ข้อมูล  user ทั้งหมด
 app.get('/users', async (req, res) => {
     try {
-        // แก้ตรงนี้: ใส่ [rows] เพื่อรับเฉพาะข้อมูล Record จาก Database
-        const [rows] = await conn.query('SELECT * FROM users');
-        
+        // ใช้ YEAR() เพื่อดึงปี ค.ศ. ออกมา
+        // และดึงฟิลด์อื่นๆ มาให้ครบตามโครงสร้างตารางของคุณ
+        const [results] = await conn.query(`
+            SELECT 
+                users_id,
+                title,
+                first_name,
+                last_name,
+                DATE_FORMAT(date_of_birth, '%Y-%m-%d') AS date_of_birth ,
+                email,
+                role,
+                education_level,
+                province
+            FROM users
+        `);
+
         res.status(200).json({
-            data: rows // ใช้ rows แทน results
+            message: "ดึงข้อมูลสำเร็จ",
+            data: results
         });
     } catch (error) {
+        console.error('Error fetching users:', error.message);
         res.status(500).json({
             message: "เกิดข้อผิดพลาดในการดึงข้อมูล",
             error: error.message
         });
     }
 });
-       
+
+app.get('/users/:id', async (req, res) => {
+    try {
+        let id = req.params.id;
+        const[results] = await conn.query(`
+            SELECT 
+                u.users_id,
+                u.title,
+                u.first_name,
+                u.last_name,
+                DATE_FORMAT(date_of_birth, '%Y-%m-%d') AS date_of_birth, 
+                u.email,
+                u.role,
+                u.education_level,
+                u.province
+            FROM users u 
+            WHERE u.users_id = ?
+        `, [id]);
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'ไม่พบข้อมูลผู้ใช้งาน' });
+        }
+
+        res.json(results[0]);
+
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).json({
+            message: 'เกิดข้อผิดพลาดในการดึงข้อมูล',
+            error: error.message
+        });
+    }
+});     
     const validateData = (userData) => {
     let errors = [];
     if (!userData.title) {
@@ -99,6 +146,8 @@ app.post('/users', async (req, res) => {
     });
    }
 });
+
+
 
 
 app.listen(port, async () => {

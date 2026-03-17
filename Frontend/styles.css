@@ -1,187 +1,151 @@
-/* นำเข้าฟอนต์ Sarabun เพื่อความสวยงามแบบไทย */
+/* นำเข้าฟอนต์ Sarabun */
 @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap');
 
 :root {
-  --primary-color: #4f8ef7;
-  --primary-hover: #3b76e1;
-  --bg-body: #f0f4f8;
-  --bg-card: #ffffff;
-  --text-main: #2d3436;
-  --text-secondary: #636e72;
-  --border-color: #dfe6e9;
-  --error-color: #ff7675;
-  --success-color: #00b894;
-  --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-  --radius: 12px;
+    --primary-color: #4f8ef7;
+    --primary-hover: #3b76e1;
+    /* สีพื้นหลังแบบไล่เฉด */
+    --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --card-bg: rgba(255, 255, 255, 0.95); /* ขาวแบบโปร่งแสงนิดๆ */
+    --text-main: #2d3436;
+    --shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    --radius: 20px;
 }
 
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  font-family: 'Sarabun', sans-serif;
-  background-color: var(--bg-body);
-  color: var(--text-main);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 20px;
+    font-family: 'Sarabun', sans-serif;
+    /* 1. เพิ่มพื้นหลังแบบไล่สีเต็มหน้าจอ */
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
 }
 
 .container {
-  background: var(--bg-card);
-  width: 100%;
-  max-width: 500px;
-  padding: 40px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+    background: var(--card-bg);
+    width: 100%;
+    max-width: 550px;
+    padding: 50px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    /* เพิ่มเอฟเฟกต์ Glassmorphism เล็กน้อย */
+    backdrop-filter: blur(10px);
 }
 
-/* Header */
+/* 2. จัดการโลโก้และหัวข้อ */
 .header {
-  text-align: center;
-  font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 32px;
-  color: var(--text-main);
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 35px;
+    color: var(--text-main);
 }
 
 .header img {
-  display: block;
-  margin: 0 auto 12px;
-  width: 64px;
-  height: 64px;
-  transition: transform 0.3s ease;
+    display: block;
+    margin: 0 auto 15px;
+    width: 90px;  /* ขยายขนาดโลโก้ */
+    height: 90px;
+    object-fit: contain;
+    /* ใส่เงาให้โลโก้ดูมีมิติ */
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+    transition: transform 0.3s ease;
 }
 
-.header:hover img {
-  transform: scale(1.1);
+.header img:hover {
+    transform: scale(1.05) rotate(5deg); /* เอฟเฟกต์หมุนตอนเอาเมาส์วาง */
 }
 
-/* Form Styles */
-.form-input {
-  margin-bottom: 20px;
-}
+/* --- ส่วนของฟอร์ม (คงความทันสมัย) --- */
+
+.form-input { margin-bottom: 22px; }
 
 .header-form {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
 }
 
-.required {
-  color: var(--error-color);
-  margin-left: 2px;
-}
+.required { color: #ff4757; }
 
-/* Inputs & Selects */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="date"],
-select {
-  width: 100%;
-  padding: 12px 16px;
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  font-size: 15px;
-  font-family: inherit;
-  background: #fafafa;
-  transition: all 0.2s ease;
-  outline: none;
+input, select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #dfe6e9;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    outline: none;
+    background: #fdfdfd;
 }
 
 input:focus, select:focus {
-  border-color: var(--primary-color);
-  background: #fff;
-  box-shadow: 0 0 0 4px rgba(79, 142, 247, 0.1);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(79, 142, 247, 0.15);
+    background: #fff;
 }
 
-/* Flexbox for name & role rows */
-.flex {
-  display: flex;
-  gap: 16px;
-}
+.flex { display: flex; gap: 15px; }
+.flex .form-input { flex: 1; }
 
-.flex .form-input {
-  flex: 1;
-}
-
-/* Button */
 .button {
-  width: 100%;
-  padding: 14px;
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin-top: 10px;
+    width: 100%;
+    padding: 15px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 10px;
+    box-shadow: 0 4px 15px rgba(79, 142, 247, 0.3);
 }
 
 .button:hover {
-  background-color: var(--primary-hover);
-  transform: translateY(-1px);
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 142, 247, 0.4);
 }
 
-.button:active {
-  transform: translateY(0);
-}
-
-/* Messages */
-.message {
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  margin-bottom: 16px;
-  display: none;
-  text-align: center;
-}
-
-.message.success {
-  display: block;
-  background: #e6fcf5;
-  color: var(--success-color);
-  border: 1px solid #c2f3e5;
-}
-
-.message.danger {
-  display: block;
-  background: #fff5f5;
-  color: var(--error-color);
-  border: 1px solid #ffe3e3;
-}
-
-/* Footer Link */
 .login-link {
-  text-align: center;
-  margin-top: 24px;
-  font-size: 14px;
-  color: var(--text-secondary);
+    text-align: center;
+    margin-top: 25px;
+    font-size: 14px;
+    color: #636e72;
 }
 
 .login-link a {
-  color: var(--primary-color);
-  text-decoration: none;
-  font-weight: 600;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 700;
 }
 
-.login-link a:hover {
-  text-decoration: underline;
+.login-link a:hover { text-decoration: underline; }
+
+/* ปรับปรุง Message Status */
+.message {
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: none;
+    text-align: center;
+    font-weight: 600;
 }
 
-/* Responsive Mobile */
+/* Responsive */
 @media (max-width: 480px) {
-  .flex {
-    flex-direction: column;
-    gap: 0;
-  }
+    .container { padding: 30px 20px; }
+    .flex { flex-direction: column; gap: 0; }
 }
